@@ -23,6 +23,12 @@ let s:STATUS_REGEX_UNFINISHED =
     \ s:STATUS_REGEXES[s:STATUS_TODO] .
     \ '\|' .
     \ s:STATUS_REGEXES[s:STATUS_WAIT]
+let s:STATUS_REGEX_TASK =
+    \ s:STATUS_REGEXES[s:STATUS_TODO] .
+    \ '\|' .
+    \ s:STATUS_REGEXES[s:STATUS_WAIT] .
+    \ '\|' .
+    \ s:STATUS_REGEXES[s:STATUS_DONE]
 let s:STATUS_REGEX_TASK_NO_DATE =
     \ s:STATUS_REGEXES_NO_DATE[s:STATUS_TODO] .
     \ '\|' .
@@ -52,6 +58,16 @@ function! s:task_toggle()
         endif
         let index = index + 1
     endwhile
+endfunction
+
+function! s:task_delete()
+    let line=getline('.')
+    if matchstr(line, s:STATUS_REGEX_TASK) != ""
+        let line = substitute(line, s:STATUS_REGEX_TASK, '', '')
+    else
+        return
+    endif
+    call setline('.', line)
 endfunction
 
 function! s:compare_tasks_by_text(i1, i2)
@@ -84,6 +100,7 @@ endfunction
 
 
 command! -range PandocTaskToggle <line1>,<line2>call s:task_toggle()
+command! -range PandocTaskDelete <line1>,<line2>call s:task_delete()
 command! PandocTaskList           call s:task_list(s:STATUS_REGEX_UNFINISHED,       '')
 command! PandocTaskListSorted     call s:task_list(s:STATUS_REGEX_UNFINISHED,       's:compare_tasks_by_text')
 command! PandocTaskListDone       call s:task_list(s:STATUS_REGEXES[s:STATUS_DONE], '')
