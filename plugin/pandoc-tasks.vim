@@ -35,8 +35,6 @@ function! s:task_toggle()
     endwhile
 endfunction
 
-
-
 command! -range TaskToggle <line1>,<line2>call s:task_toggle()
 
 autocmd FileType pandoc nnoremap <NUL> :TaskToggle<CR>
