@@ -4,6 +4,8 @@ if exists("b:did_ftplugin")
 endif
 let b:did_ftplugin = 1
 
+autocmd BufWritePre <buffer> :normal! mzgg=G`z
+
 syntax match   PandocTaskTODOLine /TODO .*/            contained containedin=PandocUListItem
 syntax match   PandocTaskTODOTag  /TODO/               contained containedin=PandocTaskTODOLine
 syntax match   PandocTaskTODODate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocTaskTODOLine
