@@ -14,6 +14,10 @@ let s:STATUS_REGEXES = [
     \ '\<DONE\( \d\d\d\d-\d\d-\d\d\)\?\>',
     \ '\<WAIT\>'
     \ ]
+let s:STATUS_REGEX_UNFINISHED =
+    \ s:STATUS_REGEXES[s:STATUS_TODO] .
+    \ '\|' .
+    \ s:STATUS_REGEXES[s:STATUS_WAIT]
 
 
 function! s:task_toggle()
@@ -39,7 +43,19 @@ function! s:task_toggle()
     endwhile
 endfunction
 
-command! -range TaskToggle <line1>,<line2>call s:task_toggle()
+
+function! s:quickfix_task_list()
+    let task_regex = '/' . s:STATUS_REGEX_UNFINISHED . '/'
+    try
+        execute 'vimgrep' task_regex '%'
+    catch
+        echom "No tasks."
+    endtry
+endfunction
+
+
+command! -range PandocTaskToggle <line1>,<line2>call s:task_toggle()
+command! PandocTaskList call s:quickfix_task_list()
 
 " " PANDOC TASKS EXPERIMENT
 "
