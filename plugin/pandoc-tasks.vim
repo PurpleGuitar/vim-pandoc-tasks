@@ -11,7 +11,7 @@ let s:STATUS_NAMES = [
     \ ]
 let s:STATUS_REGEXES = [
     \ '\<TODO\>',
-    \ '\<DONE\>',
+    \ '\<DONE\( \d\d\d\d-\d\d-\d\d\)\?\>',
     \ '\<WAIT\>'
     \ ]
 
@@ -27,6 +27,10 @@ function! s:task_toggle()
                 let next_index = s:FIRST_STATUS
             endif
             let text = s:STATUS_NAMES[next_index]
+            if next_index == s:STATUS_DONE
+                let timestamp = strftime("%Y-%m-%d")
+                let text = text . ' ' . timestamp
+            endif
             let line = substitute(line, s:STATUS_REGEXES[index], text, '')
             let cursor_pos = getcurpos()
             call setline('.', line)
