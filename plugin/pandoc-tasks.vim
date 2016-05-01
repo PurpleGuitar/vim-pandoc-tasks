@@ -18,6 +18,12 @@ let s:STATUS_REGEX_UNFINISHED =
     \ s:STATUS_REGEXES[s:STATUS_TODO] .
     \ '\|' .
     \ s:STATUS_REGEXES[s:STATUS_WAIT]
+let s:STATUS_REGEX_TASK =
+    \ s:STATUS_REGEXES[s:STATUS_TODO] .
+    \ '\|' .
+    \ s:STATUS_REGEXES[s:STATUS_WAIT] .
+    \ '\|' .
+    \ s:STATUS_REGEXES[s:STATUS_DONE]
 
 
 function! s:task_toggle()
@@ -43,11 +49,24 @@ function! s:task_toggle()
     endwhile
 endfunction
 
+function! s:compare_tasks_by_text(i1, i2)
+    let i1_text = substitute(a:i1.text, '^\s*\(.\{-}\)\s*$', '\1', '')
+    let i1_text = substitute(i1_text, s:STATUS_REGEX_TASK, '', '')
+    let i2_text = substitute(a:i2.text, '^\s*\(.\{-}\)\s*$', '\1', '')
+    let i2_text = substitute(i2_text, s:STATUS_REGEX_TASK, '', '')
+    return i1_text < i2_text ? -1 : 1
+endfunction
 
-function! s:quickfix_task_list()
+function! s:task_list(sort_function)
     let task_regex = '/' . s:STATUS_REGEX_UNFINISHED . '/'
     try
-        execute 'vimgrep' task_regex '%'
+        silent execute 'vimgrep' task_regex '%'
+        let task_list = getqflist()
+        if a:sort_function != ''
+            let task_list = sort(task_list, a:sort_function)
+        endif
+        call setqflist(task_list)
+        cc 1
     catch
         echom "No tasks."
     endtry
@@ -55,7 +74,8 @@ endfunction
 
 
 command! -range PandocTaskToggle <line1>,<line2>call s:task_toggle()
-command! PandocTaskList call s:quickfix_task_list()
+command! PandocTaskList call s:task_list('')
+command! PandocTaskListSorted call s:task_list('s:compare_tasks_by_text')
 
 " " PANDOC TASKS EXPERIMENT
 "
