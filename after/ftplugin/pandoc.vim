@@ -4,3 +4,11 @@ if exists("b:did_ftplugin")
 endif
 let b:did_ftplugin = 1
 
+syntax match PandocTaskTODO /\<TODO\>/ contained containedin=PandocUListItem
+syntax match PandocTaskDONE /\<DONE\>/ contained containedin=PandocUListItem
+syntax match PandocTaskWAIT /\<WAIT\>/ contained containedin=PandocUListItem
+
+highlight link PandocTaskTODO Tag
+highlight link PandocTaskDONE Constant
+highlight link PandocTaskWAIT Type
+
