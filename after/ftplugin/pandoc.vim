@@ -11,7 +11,7 @@ syntax match   PandocTaskTODOTag  /TODO/               contained containedin=Pan
 syntax match   PandocTaskTODODate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocTaskTODOLine
 
 highlight link PandocTaskTODOLine PandocUListItem
-highlight link PandocTaskTODOTag  Tag
+highlight link PandocTaskTODOTag  Type
 highlight link PandocTaskTODODate PreProc
 
 syntax match   PandocTaskDONELine /DONE .*/            contained containedin=PandocUListItem
@@ -27,5 +27,5 @@ syntax match   PandocTaskWAITTag  /WAIT/               contained containedin=Pan
 syntax match   PandocTaskWAITDate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocTaskWAITLine
 
 highlight link PandocTaskWAITLine PandocUListItem
-highlight link PandocTaskWAITTag  Type
+highlight link PandocTaskWAITTag  Tag
 highlight link PandocTaskWAITDate PreProc
