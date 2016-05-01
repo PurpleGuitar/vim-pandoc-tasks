@@ -32,11 +32,7 @@ function! s:task_toggle()
                 let text = text . ' ' . timestamp
             endif
             let line = substitute(line, s:STATUS_REGEXES[index], text, '')
-            let cursor_pos = getcurpos()
             call setline('.', line)
-            if mode() == 'n'
-                call cursor(cursor_pos[1], cursor_pos[4])
-            endif
             return
         endif
         let index = index + 1
