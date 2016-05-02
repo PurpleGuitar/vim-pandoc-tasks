@@ -4,8 +4,6 @@ if exists("b:did_ftplugin")
 endif
 let b:did_ftplugin = 1
 
-autocmd BufWritePre <buffer> :normal! mzgg=G`z
-
 function! PandocTasksExtraSyntax()
     if &ft == 'pandoc'
 
@@ -21,18 +19,18 @@ function! PandocTasksExtraSyntax()
         syntax match   PandocTaskWAITTag  /WAIT/               contained containedin=PandocTaskWAITLine
         syntax match   PandocTaskWAITDate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocTaskWAITLine
 
-        highlight link PandocTaskTODOLine PandocUListItem
-        highlight link PandocTaskTODOTag  Type
-        highlight link PandocTaskTODODate PreProc
-
-        highlight link PandocTaskDONELine Comment
-        highlight link PandocTaskDONETag  Constant
-        highlight link PandocTaskDONEDate Comment
-
-        highlight link PandocTaskWAITLine PandocUListItem
-        highlight link PandocTaskWAITTag  Tag
-        highlight link PandocTaskWAITDate PreProc
-
     endif
 endfun
 autocmd BufEnter,BufWinEnter * call PandocTasksExtraSyntax()
+
+highlight link PandocTaskTODOLine PandocUListItem
+highlight link PandocTaskTODOTag  Type
+highlight link PandocTaskTODODate PreProc
+
+highlight link PandocTaskDONELine Comment
+highlight link PandocTaskDONETag  Constant
+highlight link PandocTaskDONEDate Comment
+
+highlight link PandocTaskWAITLine PandocUListItem
+highlight link PandocTaskWAITTag  Tag
+highlight link PandocTaskWAITDate PreProc
