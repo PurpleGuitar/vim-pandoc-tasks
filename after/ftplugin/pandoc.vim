@@ -6,31 +6,15 @@ let b:did_ftplugin = 1
 
 function! PandocTasksExtraSyntax()
     if &ft == 'pandoc'
-
-        syntax match   PandocTaskTODOLine /TODO .*/            contained containedin=PandocUListItem
-        syntax match   PandocTaskTODOTag  /TODO/               contained containedin=PandocTaskTODOLine
-        syntax match   PandocTaskTODODate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocTaskTODOLine
-
-        syntax match   PandocTaskDONELine /DONE .*/            contained containedin=PandocUListItem
-        syntax match   PandocTaskDONETag  /DONE/               contained containedin=PandocTaskDONELine
-        syntax match   PandocTaskDONEDate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocTaskDONELine
-
-        syntax match   PandocTaskWAITLine /WAIT .*/            contained containedin=PandocUListItem
-        syntax match   PandocTaskWAITTag  /WAIT/               contained containedin=PandocTaskWAITLine
-        syntax match   PandocTaskWAITDate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocTaskWAITLine
-
+        syntax match   PandocTaskTagTODO  /TODO/               contained containedin=PandocUListItem
+        syntax match   PandocTaskTagDONE  /DONE/               contained containedin=PandocUListItem
+        syntax match   PandocTaskTagWAIT  /WAIT/               contained containedin=PandocUListItem
+        syntax match   PandocTaskDate /\d\d\d\d-\d\d-\d\d/ contained containedin=PandocUListItem
     endif
 endfun
 autocmd BufEnter,BufWinEnter * call PandocTasksExtraSyntax()
 
-highlight link PandocTaskTODOLine PandocUListItem
-highlight link PandocTaskTODOTag  Type
-highlight link PandocTaskTODODate PreProc
-
-highlight link PandocTaskDONELine Comment
-highlight link PandocTaskDONETag  Constant
-highlight link PandocTaskDONEDate Comment
-
-highlight link PandocTaskWAITLine PandocUListItem
-highlight link PandocTaskWAITTag  Tag
-highlight link PandocTaskWAITDate PreProc
+highlight link PandocTaskTagTODO  Type
+highlight link PandocTaskTagDONE  Constant
+highlight link PandocTaskTagWAIT  Tag
+highlight link PandocTaskDate PreProc
