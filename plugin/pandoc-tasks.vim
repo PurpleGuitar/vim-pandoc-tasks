@@ -10,14 +10,14 @@ let s:STATUS_NAMES = [
     \ 'WAIT'
     \ ]
 let s:STATUS_REGEXES = [
-    \ '\<TODO\>',
-    \ '\<DONE\( \d\d\d\d-\d\d-\d\d\)\?\>',
-    \ '\<WAIT\>'
+    \ '\<TODO\>\C',
+    \ '\<DONE\( \d\d\d\d-\d\d-\d\d\)\?\>\C',
+    \ '\<WAIT\>\C'
     \ ]
 let s:STATUS_REGEXES_NO_DATE = [
-    \ '\<TODO\>',
-    \ '\<DONE\>',
-    \ '\<WAIT\>'
+    \ '\<TODO\>\C',
+    \ '\<DONE\>\C',
+    \ '\<WAIT\>\C'
     \ ]
 let s:STATUS_REGEX_UNFINISHED =
     \ s:STATUS_REGEXES[s:STATUS_TODO] .
