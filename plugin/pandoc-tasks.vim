@@ -84,20 +84,22 @@ function! s:compare_tasks_by_text_reverse(i1, i2)
 endfunction
 
 function! s:task_list(regex, sort_function, ...)
+    let glob1 = '%'
+    let glob2 = ''
     if a:0 > 0
-        let glob = a:1
-    else
-        let glob = '%'
+        let glob1 = a:1
     endif
-    let task_regex = '/' . a:regex . '/'
+    if a:0 > 1
+        let glob2 = a:2
+    endif
+    let task_regex = '/' . a:regex . '/j'
     try
-        silent execute 'vimgrep' task_regex glob
+        silent execute 'vimgrep' task_regex glob1 glob2
         let task_list = getqflist()
         if a:sort_function != ''
             let task_list = sort(task_list, a:sort_function)
         endif
         call setqflist(task_list)
-        cc 1
     catch
         echom "No tasks."
     endtry
@@ -109,11 +111,11 @@ command! -range PandocTaskDelete <line1>,<line2>call s:task_delete()
 
 " command! -nargs=? PandocTaskTest             call s:task_list(s:STATUS_REGEXES[s:STATUS_TODO], '', <args>)
 
-command! -nargs=? PandocTaskListTodo             call s:task_list ( s:STATUS_REGEXES[s:STATUS_TODO] , ''                                , <args> )
-command! -nargs=? PandocTaskListTodoSorted       call s:task_list ( s:STATUS_REGEXES[s:STATUS_TODO] , 's:compare_tasks_by_text'         , <args> )
-command! -nargs=? PandocTaskListWait             call s:task_list ( s:STATUS_REGEXES[s:STATUS_WAIT] , ''                                , <args> )
-command! -nargs=? PandocTaskListWaitSorted       call s:task_list ( s:STATUS_REGEXES[s:STATUS_WAIT] , 's:compare_tasks_by_text'         , <args> )
-command! -nargs=? PandocTaskListDone             call s:task_list ( s:STATUS_REGEXES[s:STATUS_DONE] , ''                                , <args> )
-command! -nargs=? PandocTaskListDoneSorted       call s:task_list ( s:STATUS_REGEXES[s:STATUS_DONE] , 's:compare_tasks_by_text_reverse' , <args> )
-command! -nargs=? PandocTaskListUnfinished       call s:task_list ( s:STATUS_REGEX_UNFINISHED       , ''                                , <args> )
-command! -nargs=? PandocTaskListUnfinishedSorted call s:task_list ( s:STATUS_REGEX_UNFINISHED       , 's:compare_tasks_by_text'         , <args> )
+command! -nargs=* PandocTaskListTodo             call s:task_list ( s:STATUS_REGEXES[s:STATUS_TODO] , ''                                , <args> )
+command! -nargs=* PandocTaskListTodoSorted       call s:task_list ( s:STATUS_REGEXES[s:STATUS_TODO] , 's:compare_tasks_by_text'         , <args> )
+command! -nargs=* PandocTaskListWait             call s:task_list ( s:STATUS_REGEXES[s:STATUS_WAIT] , ''                                , <args> )
+command! -nargs=* PandocTaskListWaitSorted       call s:task_list ( s:STATUS_REGEXES[s:STATUS_WAIT] , 's:compare_tasks_by_text'         , <args> )
+command! -nargs=* PandocTaskListDone             call s:task_list ( s:STATUS_REGEXES[s:STATUS_DONE] , ''                                , <args> )
+command! -nargs=* PandocTaskListDoneSorted       call s:task_list ( s:STATUS_REGEXES[s:STATUS_DONE] , 's:compare_tasks_by_text_reverse' , <args> )
+command! -nargs=* PandocTaskListUnfinished       call s:task_list ( s:STATUS_REGEX_UNFINISHED       , ''                                , <args> )
+command! -nargs=* PandocTaskListUnfinishedSorted call s:task_list ( s:STATUS_REGEX_UNFINISHED       , 's:compare_tasks_by_text'         , <args> )
