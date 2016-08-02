@@ -3,38 +3,46 @@ let s:FIRST_STATUS = 0
 let s:STATUS_TODO = 0
 let s:STATUS_DONE = 1
 let s:STATUS_WAIT = 2
-let s:NUM_STATUSES = 3
+let s:STATUS_XXXX = 3
+let s:NUM_STATUSES = 4
 let s:STATUS_NAMES = [
-    \ 'TODO',
-    \ 'DONE',
-    \ 'WAIT'
-    \ ]
+            \ 'TODO',
+            \ 'DONE',
+            \ 'WAIT',
+            \ 'XXXX'
+            \ ]
 let s:STATUS_REGEXES = [
-    \ '\<TODO\>\C',
-    \ '\<DONE\( \d\d\d\d-\d\d-\d\d\)\?\>\C',
-    \ '\<WAIT\>\C'
-    \ ]
+            \ '\<TODO\>\C',
+            \ '\<DONE\( \d\d\d\d-\d\d-\d\d\)\?\>\C',
+            \ '\<WAIT\>\C',
+            \ '\<XXXX\>\C'
+            \ ]
 let s:STATUS_REGEXES_NO_DATE = [
-    \ '\<TODO\>\C',
-    \ '\<DONE\>\C',
-    \ '\<WAIT\>\C'
-    \ ]
+            \ '\<TODO\>\C',
+            \ '\<DONE\>\C',
+            \ '\<WAIT\>\C',
+            \ '\<XXXX\>\C'
+            \ ]
 let s:STATUS_REGEX_UNFINISHED =
-    \ s:STATUS_REGEXES[s:STATUS_TODO] .
-    \ '\|' .
-    \ s:STATUS_REGEXES[s:STATUS_WAIT]
+            \ s:STATUS_REGEXES[s:STATUS_TODO] .
+            \ '\|' .
+            \ s:STATUS_REGEXES[s:STATUS_WAIT]
 let s:STATUS_REGEX_TASK =
-    \ s:STATUS_REGEXES[s:STATUS_TODO] .
-    \ '\|' .
-    \ s:STATUS_REGEXES[s:STATUS_WAIT] .
-    \ '\|' .
-    \ s:STATUS_REGEXES[s:STATUS_DONE]
+            \ s:STATUS_REGEXES[s:STATUS_TODO] .
+            \ '\|' .
+            \ s:STATUS_REGEXES[s:STATUS_WAIT] .
+            \ '\|' .
+            \ s:STATUS_REGEXES[s:STATUS_DONE] .
+            \ '\|' .
+            \ s:STATUS_REGEXES[s:STATUS_XXXX]
 let s:STATUS_REGEX_TASK_NO_DATE =
-    \ s:STATUS_REGEXES_NO_DATE[s:STATUS_TODO] .
-    \ '\|' .
-    \ s:STATUS_REGEXES_NO_DATE[s:STATUS_WAIT] .
-    \ '\|' .
-    \ s:STATUS_REGEXES_NO_DATE[s:STATUS_DONE]
+            \ s:STATUS_REGEXES_NO_DATE[s:STATUS_TODO] .
+            \ '\|' .
+            \ s:STATUS_REGEXES_NO_DATE[s:STATUS_WAIT] .
+            \ '\|' .
+            \ s:STATUS_REGEXES_NO_DATE[s:STATUS_DONE] .
+            \ '\|' .
+            \ s:STATUS_REGEXES_NO_DATE[s:STATUS_XXXX]
 
 
 function! s:task_toggle()
