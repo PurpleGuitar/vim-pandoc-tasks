@@ -80,8 +80,10 @@ endfunction
 
 function! s:compare_tasks_by_text(i1, i2)
     let i1_text = substitute(a:i1.text, '^\s*\(.\{-}\)\s*$', '\1', '')
+    let i1_text = substitute(i1_text, '\s\+', ' ', 'g')
     let i1_text = substitute(i1_text, s:STATUS_REGEX_TASK_NO_DATE, '', '')
     let i2_text = substitute(a:i2.text, '^\s*\(.\{-}\)\s*$', '\1', '')
+    let i2_text = substitute(i2_text, '\s\+', ' ', 'g')
     let i2_text = substitute(i2_text, s:STATUS_REGEX_TASK_NO_DATE, '', '')
     return i1_text < i2_text ? -1 : 1
 endfunction
